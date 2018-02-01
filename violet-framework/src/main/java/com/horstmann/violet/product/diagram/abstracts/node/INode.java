@@ -31,6 +31,7 @@ import com.horstmann.violet.product.diagram.abstracts.ConnectedEdgeListener;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 
 /**
  * A node_old in a graph. To be more precise, a node_old is an graphical entity that represents a class, a sequence, a state or all other
@@ -204,4 +205,17 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * @return a deep copy of this object
      */
     INode clone();
+
+    int getCboCount();
+
+    void incrementCboCount();
+
+    void setCbo(LineText newValue);
+
+    /**
+     * Gets the methods property value.
+     *
+     * @return the methods of this class
+     */
+    LineText getCbo();
 }

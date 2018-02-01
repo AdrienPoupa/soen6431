@@ -35,6 +35,8 @@ import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.property.text.LineText;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
  * A class that supplies convenience implementations for a number of methods in the Node interface
@@ -43,6 +45,18 @@ import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
  */
 public abstract class AbstractNode implements INode
 {
+    protected int cboCount = 0;
+
+    @Override
+    public int getCboCount() {
+        return cboCount;
+    }
+
+    @Override
+    public void incrementCboCount() {
+        this.cboCount = this.cboCount+1;
+    }
+
     private static class NodeGraph extends AbstractGraph
     {
         @Override
@@ -469,4 +483,25 @@ public abstract class AbstractNode implements INode
     private INode parent;
 
     private Point2D location;
+    protected SingleLineText cbo;
+
+    /**
+     * Sets the methods property value.
+     *
+     * @param newValue the methods of this class
+     */
+    public void setCbo(LineText newValue)
+    {
+        cbo.setText(newValue);
+    }
+
+    /**
+     * Gets the methods property value.
+     *
+     * @return the methods of this class
+     */
+    public LineText getCbo()
+    {
+        return cbo;
+    }
 }

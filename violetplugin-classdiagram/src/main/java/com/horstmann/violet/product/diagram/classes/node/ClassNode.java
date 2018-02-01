@@ -29,6 +29,8 @@ public class ClassNode extends ColorableNode
         super();
         name = new SingleLineText(NAME_CONVERTER);
         name.setAlignment(LineText.CENTER);
+        cbo = new SingleLineText(NAME_CONVERTER);
+        cbo.setAlignment(LineText.CENTER);
         attributes = new MultiLineText(PROPERTY_CONVERTER);
         methods = new MultiLineText(PROPERTY_CONVERTER);
         createContentStructure();
@@ -40,6 +42,7 @@ public class ClassNode extends ColorableNode
         name = node.name.clone();
         attributes = node.attributes.clone();
         methods = node.methods.clone();
+        cbo = node.cbo.clone(); // todo?
         createContentStructure();
     }
 
@@ -52,6 +55,10 @@ public class ClassNode extends ColorableNode
         {
             name = new SingleLineText();
         }
+        if(null == cbo)
+        {
+            cbo = new SingleLineText();
+        }
         if(null == attributes)
         {
             attributes = new MultiLineText();
@@ -61,9 +68,11 @@ public class ClassNode extends ColorableNode
             methods = new MultiLineText();
         }
         name.reconstruction(NAME_CONVERTER);
+        cbo.reconstruction(NAME_CONVERTER);
         attributes.reconstruction(PROPERTY_CONVERTER);
         methods.reconstruction(PROPERTY_CONVERTER);
         name.setAlignment(LineText.CENTER);
+        cbo.setAlignment(LineText.CENTER);
     }
 
     @Override
@@ -75,14 +84,19 @@ public class ClassNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
+        cbo.setText("CBO count:"+this.cboCount);
         TextContent nameContent = new TextContent(name);
+        TextContent cboContent = new TextContent(cbo);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
+        cboContent.setMinHeight(MIN_NAME_HEIGHT);
+        cboContent.setMinWidth(MIN_WIDTH);
         TextContent attributesContent = new TextContent(attributes);
         TextContent methodsContent = new TextContent(methods);
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
+        verticalGroupContent.add(cboContent);
         verticalGroupContent.add(attributesContent);
         verticalGroupContent.add(methodsContent);
         separator = new Separator.LineSeparator(getBorderColor());
@@ -113,6 +127,7 @@ public class ClassNode extends ColorableNode
         name.setTextColor(textColor);
         attributes.setTextColor(textColor);
         methods.setTextColor(textColor);
+        cbo.setTextColor(textColor);
         super.setTextColor(textColor);
     }
 
@@ -185,6 +200,7 @@ public class ClassNode extends ColorableNode
     private SingleLineText name;
     private MultiLineText attributes;
     private MultiLineText methods;
+
 
     private transient Separator separator;
 
