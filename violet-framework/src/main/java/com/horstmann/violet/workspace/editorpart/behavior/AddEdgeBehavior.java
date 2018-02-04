@@ -244,8 +244,8 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
                     if (startNode != null && endNode != null) {
                         startNode.incrementCboCount();
                         endNode.incrementCboCount();
-                        startNode.getCbo().setText("CBO count:"+startNode.getCboCount());
-                        endNode.getCbo().setText("CBO count:"+endNode.getCboCount());
+                        startNode.updateCbo();
+                        endNode.updateCbo();
                     }
                 }
             }

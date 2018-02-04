@@ -42,7 +42,7 @@ public class ClassNode extends ColorableNode
         name = node.name.clone();
         attributes = node.attributes.clone();
         methods = node.methods.clone();
-        cbo = node.cbo.clone(); // todo?
+        cbo = node.cbo.clone();
         createContentStructure();
     }
 
@@ -84,7 +84,7 @@ public class ClassNode extends ColorableNode
     @Override
     protected void createContentStructure()
     {
-        cbo.setText("CBO count:"+this.cboCount);
+        updateCbo();
         TextContent nameContent = new TextContent(name);
         TextContent cboContent = new TextContent(cbo);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);

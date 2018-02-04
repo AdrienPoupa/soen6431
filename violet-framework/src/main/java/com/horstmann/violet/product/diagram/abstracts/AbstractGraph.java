@@ -340,8 +340,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             startingNode.decrementCboCount();
             endingNode.removeConnection(anEdgeToRemove);
             endingNode.decrementCboCount();
-            startingNode.getCbo().setText("CBO count:"+startingNode.getCboCount());
-            endingNode.getCbo().setText("CBO count:"+endingNode.getCboCount());
+            startingNode.updateCbo();
+            endingNode.updateCbo();
             this.edges.remove(anEdgeToRemove);
         }
     }

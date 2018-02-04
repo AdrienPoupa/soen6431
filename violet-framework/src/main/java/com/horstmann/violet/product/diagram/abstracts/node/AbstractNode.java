@@ -24,12 +24,11 @@ package com.horstmann.violet.product.diagram.abstracts.node;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
@@ -45,23 +44,6 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
  */
 public abstract class AbstractNode implements INode
 {
-    protected int cboCount = 0;
-
-    @Override
-    public int getCboCount() {
-        return cboCount;
-    }
-
-    @Override
-    public void incrementCboCount() {
-        this.cboCount = this.cboCount+1;
-    }
-
-    @Override
-    public void decrementCboCount() {
-        this.cboCount = this.cboCount-1;
-    }
-
     private static class NodeGraph extends AbstractGraph
     {
         @Override
@@ -83,6 +65,7 @@ public abstract class AbstractNode implements INode
         this.revision = new Integer(0);
         this.location = new Point2D.Double(0, 0);
         this.children = new ArrayList<INode>();
+        this.cboCount = 0;
     }
 
     /**
@@ -103,6 +86,7 @@ public abstract class AbstractNode implements INode
             clonedChild.setParent(this);
             this.children.add(clonedChild);
         }
+        this.cboCount = 0;
     }
 
     @Override
@@ -490,23 +474,25 @@ public abstract class AbstractNode implements INode
     private Point2D location;
     protected SingleLineText cbo;
 
-    /**
-     * Sets the methods property value.
-     *
-     * @param newValue the methods of this class
-     */
-    public void setCbo(LineText newValue)
-    {
-        cbo.setText(newValue);
+    private int cboCount;
+
+    @Override
+    public void incrementCboCount() {
+        this.cboCount += 1;
+    }
+
+    @Override
+    public void decrementCboCount() {
+        this.cboCount -= 1;
     }
 
     /**
-     * Gets the methods property value.
-     *
-     * @return the methods of this class
+     * Updates the CBO text value
      */
-    public LineText getCbo()
+    public void updateCbo()
     {
-        return cbo;
+        ResourceBundle resources = ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault());
+        String cboLocale = resources.getString("cbo.count");
+        cbo.setText(cboLocale + " " + cboCount);
     }
 }

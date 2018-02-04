@@ -206,18 +206,18 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      */
     INode clone();
 
-    int getCboCount();
-
+    /**
+     * Increments the CBO number
+     */
     void incrementCboCount();
 
+    /**
+     * Decrements the CBO number
+     */
     void decrementCboCount();
 
-    void setCbo(LineText newValue);
-
     /**
-     * Gets the methods property value.
-     *
-     * @return the methods of this class
+     * Updates the CBO text value
      */
-    LineText getCbo();
+    void updateCbo();
 }
