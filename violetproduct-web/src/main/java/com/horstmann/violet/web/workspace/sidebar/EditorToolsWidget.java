@@ -195,6 +195,7 @@ public class EditorToolsWidget extends WContainerWidget {
 			this.deleteButton = getWPushButton(this.bDelete);
 			this.deleteButton.clicked().addListener(this.deleteButton, new Signal1.Listener<WMouseEvent>() {
 				public void trigger(WMouseEvent e1) {
+					System.out.println("getDeleteButtonTrigger");
 					editorPartWidget.getEditorPart().removeSelected();
 					editorPartWidget.update();
 				}

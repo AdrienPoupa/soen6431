@@ -210,6 +210,8 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
 
     void incrementCboCount();
 
+    void decrementCboCount();
+
     void setCbo(LineText newValue);
 
     /**

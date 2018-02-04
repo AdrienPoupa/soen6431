@@ -57,6 +57,11 @@ public abstract class AbstractNode implements INode
         this.cboCount = this.cboCount+1;
     }
 
+    @Override
+    public void decrementCboCount() {
+        this.cboCount = this.cboCount-1;
+    }
+
     private static class NodeGraph extends AbstractGraph
     {
         @Override
