@@ -327,6 +327,12 @@ public abstract class AbstractEdge implements IEdge
         }
     }
 
+    @Override
+    public boolean isOperationAllowed(IGraph g, Point2D startPoint, Point2D endPoint)
+    {
+        return true;
+    }
+
     /** Points of contact path */
     protected transient Point2D[] contactPoints;
 

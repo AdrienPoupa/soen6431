@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
@@ -180,16 +180,22 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
 
     private void endAction(MouseEvent event)
     {
-        boolean added = addEdgeAtPoints(this.newEdge, firstMousePoint, lastMousePoint);
-        if (added)
+        boolean isAllowed = this.newEdge.isOperationAllowed(this.graph, firstMousePoint, lastMousePoint);
+        if(isAllowed)
         {
-            this.selectionHandler.setSelectedElement(this.newEdge);
+            boolean added = addEdgeAtPoints(this.newEdge, firstMousePoint, lastMousePoint);
+            if (added)
+            {
+                this.selectionHandler.setSelectedElement(this.newEdge);
+            }
         }
         this.isLinkingInProgress = false;
         this.isLinkBySeparatedClicks = false;
         this.transitionPoints.clear();
         this.newEdge = null;
-        
+
+        if(!isAllowed)
+            JOptionPane.showMessageDialog(null, "This operation is not allowed.","Invalid Operation" , JOptionPane.WARNING_MESSAGE);
     }
 
     private void cancel()

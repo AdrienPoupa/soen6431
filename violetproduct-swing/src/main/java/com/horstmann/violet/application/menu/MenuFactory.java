@@ -48,6 +48,19 @@ public class MenuFactory
     }
 
     /**
+     * @param mainFrame
+     * @return edit menu
+     */
+    public OptionsMenu getOptionsMenu(MainFrame mainFrame)
+    {
+        if (this.optionsMenu == null)
+        {
+            this.optionsMenu = new OptionsMenu(mainFrame);
+        }
+        return this.optionsMenu;
+    }
+
+    /**
      * @param editorFrame
      * @return file menu
      */
@@ -104,5 +117,6 @@ public class MenuFactory
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
+    private OptionsMenu optionsMenu;
 
 }

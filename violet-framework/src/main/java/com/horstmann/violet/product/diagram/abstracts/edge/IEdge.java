@@ -28,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 import com.horstmann.violet.product.diagram.abstracts.Direction;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.IIdentifiable;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
@@ -169,5 +170,11 @@ public interface IEdge extends Serializable, Cloneable, IIdentifiable
      * @return a deep copy of this object
      */
     IEdge clone();
+
+    /***
+     *
+     * @return is the operation being performed is allowed based on UML rules.
+     */
+    boolean isOperationAllowed(IGraph graph, Point2D startPoint, Point2D endPoint);
 
 }
