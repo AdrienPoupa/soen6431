@@ -21,17 +21,9 @@
 
 package com.horstmann.violet.application.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 import com.horstmann.violet.application.gui.MainFrame;
-import com.horstmann.violet.application.help.AboutDialog;
-import com.horstmann.violet.application.help.HelpManager;
-import com.horstmann.violet.application.help.ShortcutDialog;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 
@@ -64,31 +56,17 @@ public class NewFeatures extends JMenu
      */
     private void createMenu()
     {
-
-        enableItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-//                HelpManager.getInstance().openUserGuide();
-                System.out.println("enable clicked");
+        cboMenuItem.setSelected(false);
+        cboMenuItem.addItemListener(e -> {
+            if (cboMenuItem.isSelected()) {
+                System.out.println("we just enabled it");
             }
-
-        });
-        this.add(enableItem);
-
-        disableItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-//                HelpManager.getInstance().openHomepage();
-                System.out.println("disable clicked");
+            if (!cboMenuItem.isSelected()) {
+                System.out.println("we just disabled it");
             }
-
         });
-        this.add(disableItem);
-
+        this.add(cboMenuItem);
     }
-
 
 
     /**
@@ -96,12 +74,6 @@ public class NewFeatures extends JMenu
      */
     private JFrame mainFrame;
 
-    @ResourceBundleBean(key = "newf.enable")
-    private JMenuItem enableItem;
-
-    @ResourceBundleBean(key = "newf.disable")
-    private JMenuItem disableItem;
-
-
-
+    @ResourceBundleBean(key = "newf.cbo")
+    private JCheckBoxMenuItem cboMenuItem;
 }
