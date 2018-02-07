@@ -112,11 +112,21 @@ public class MenuFactory
         return this.newFeatures;
     }
 
+    public NewContraintsMenu getNewContraintsMenu(MainFrame editorFrame)
+    {
+        if (this.newContraintsMenu == null)
+        {
+            this.newContraintsMenu = new NewContraintsMenu(editorFrame);
+        }
+        return this.newContraintsMenu;
+    }
+    
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
     private NewFeatures newFeatures;
+    private NewContraintsMenu newContraintsMenu;
 
 }
