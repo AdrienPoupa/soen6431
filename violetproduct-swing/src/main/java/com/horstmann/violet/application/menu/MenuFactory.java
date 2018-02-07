@@ -99,10 +99,24 @@ public class MenuFactory
         return this.documentMenu;
     }
 
+    /**
+     * @param editorFrame
+     * @return newFeatures menu
+     */
+    public NewFeatures getnewFeatures(MainFrame editorFrame)
+    {
+        if (this.newFeatures == null)
+        {
+            this.newFeatures = new NewFeatures(editorFrame);
+        }
+        return this.newFeatures;
+    }
+
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
+    private NewFeatures newFeatures;
 
 }
