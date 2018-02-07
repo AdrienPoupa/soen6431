@@ -8,6 +8,7 @@ import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -21,6 +22,9 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
  */
 public class ClassNode extends ColorableNode
 {
+    private TextContent cboContent;
+    private VerticalLayout verticalGroupContent;
+
 	/**
      * Construct a class node with a default size
      */
@@ -86,7 +90,7 @@ public class ClassNode extends ColorableNode
     {
         updateCbo();
         TextContent nameContent = new TextContent(name);
-        TextContent cboContent = new TextContent(cbo);
+        cboContent = new TextContent(cbo);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
         cboContent.setMinHeight(MIN_NAME_HEIGHT);
@@ -94,7 +98,7 @@ public class ClassNode extends ColorableNode
         TextContent attributesContent = new TextContent(attributes);
         TextContent methodsContent = new TextContent(methods);
 
-        VerticalLayout verticalGroupContent = new VerticalLayout();
+        verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(cboContent);
         verticalGroupContent.add(attributesContent);
@@ -274,4 +278,33 @@ public class ClassNode extends ColorableNode
             return lineString;
         }
     };
+
+    /**
+     * Updates the CBO text value
+     */
+    @Override
+    public void updateCbo()
+    {
+        ResourceBundle resources = ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault());
+        String cboLocale = resources.getString("cbo.count");
+        cbo.setText(cboLocale + " " + cboCount);
+    }
+
+    /**
+     * Displays the CBO count
+     */
+    @Override
+    public void enableCbo()
+    {
+        verticalGroupContent.add(cboContent);
+    }
+
+    /**
+     * Hides the CBO count
+     */
+    @Override
+    public void disableCbo()
+    {
+        verticalGroupContent.remove(cboContent);
+    }
 }

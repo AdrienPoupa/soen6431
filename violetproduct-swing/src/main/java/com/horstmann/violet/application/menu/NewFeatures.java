@@ -26,6 +26,12 @@ import javax.swing.*;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
+
+import java.util.Collection;
 
 /**
  * Help menu
@@ -40,8 +46,7 @@ public class NewFeatures extends JMenu
     /**
      * Default constructor
      *
-     * @param mainFrame where this menu is atatched
-     * @param factory to access to external resources such as texts, icons
+     * @param mainFrame where this menu is attached
      */
     @ResourceBundleBean(key = "newf")
     public NewFeatures(MainFrame mainFrame)
@@ -56,14 +61,29 @@ public class NewFeatures extends JMenu
      */
     private void createMenu()
     {
-        cboMenuItem.setSelected(false);
+        // CBO item
+        cboMenuItem.setSelected(true);
         cboMenuItem.addItemListener(e -> {
+
+            if (mainFrame.getWorkspaceList().size() == 0) return;
+
+            IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+            IEditorPart activeEditor = activeWorkspace.getEditorPart();
+            IGraph activeGraph = activeEditor.getGraph();
+            Collection<INode> nodes = activeGraph.getAllNodes();
+
             if (cboMenuItem.isSelected()) {
-                System.out.println("we just enabled it");
+                for(INode node: nodes) {
+                    node.enableCbo();
+                }
             }
             if (!cboMenuItem.isSelected()) {
-                System.out.println("we just disabled it");
+                for(INode node: nodes) {
+                    node.disableCbo();
+                }
             }
+
+            activeEditor.getSwingComponent().repaint();
         });
         this.add(cboMenuItem);
     }
@@ -72,7 +92,7 @@ public class NewFeatures extends JMenu
     /**
      * Main app frame where this menu is attached to
      */
-    private JFrame mainFrame;
+    private MainFrame mainFrame;
 
     @ResourceBundleBean(key = "newf.cbo")
     private JCheckBoxMenuItem cboMenuItem;
