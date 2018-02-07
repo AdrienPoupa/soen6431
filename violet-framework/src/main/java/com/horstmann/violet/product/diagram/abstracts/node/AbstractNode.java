@@ -28,13 +28,11 @@ import java.util.*;
 import java.util.List;
 
 import com.horstmann.violet.framework.graphics.content.Content;
-import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
 import com.horstmann.violet.product.diagram.abstracts.Direction;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 /**
@@ -474,13 +472,19 @@ public abstract class AbstractNode implements INode
     private Point2D location;
     protected SingleLineText cbo;
 
-    private int cboCount;
+    protected int cboCount;
 
+    /**
+     * Increments CBO count
+     */
     @Override
     public void incrementCboCount() {
         this.cboCount += 1;
     }
 
+    /**
+     * Decrements CBO count
+     */
     @Override
     public void decrementCboCount() {
         this.cboCount -= 1;
@@ -488,11 +492,22 @@ public abstract class AbstractNode implements INode
 
     /**
      * Updates the CBO text value
+     * Implemented in ClassNode
      */
-    public void updateCbo()
-    {
-        ResourceBundle resources = ResourceBundle.getBundle(ResourceBundleConstant.OTHER_STRINGS, Locale.getDefault());
-        String cboLocale = resources.getString("cbo.count");
-        cbo.setText(cboLocale + " " + cboCount);
-    }
+    @Override
+    public void updateCbo() { }
+
+    /**
+     * Displays the CBO count
+     * Implemented in ClassNode
+     */
+    @Override
+    public void enableCbo() { }
+
+    /**
+     * Hides the CBO count
+     * Implemented in ClassNode
+     */
+    @Override
+    public void disableCbo() { }
 }

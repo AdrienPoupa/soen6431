@@ -220,4 +220,14 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * Updates the CBO text value
      */
     void updateCbo();
+
+    /**
+     * Displays CBO count
+     */
+    void enableCbo();
+
+    /**
+     * Hides CBO count
+     */
+    void disableCbo();
 }
