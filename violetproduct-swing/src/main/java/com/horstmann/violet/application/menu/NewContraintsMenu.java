@@ -44,7 +44,9 @@ public class NewContraintsMenu extends JMenu {
 	 */
 	private void createMenu() {
 		initEnableBidirectionalRelation();
+		initEnableRecursiveRelation();
 		this.add(this.enableBidirectionalRelationContraint);
+		this.add(this.enableRecursiveRelationContraint);
 
 	}
 
@@ -54,6 +56,7 @@ public class NewContraintsMenu extends JMenu {
 	private void initEnableBidirectionalRelation() {
 		this.enableBidirectionalRelationContraint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean bflag = false;
 				StringBuffer message = new StringBuffer();
 				IWorkspace workspace = mainFrame.getActiveWorkspace();
 				if (workspace != null) {
@@ -64,33 +67,66 @@ public class NewContraintsMenu extends JMenu {
 							Collection<IEdge> edgesList = graph.getAllEdges();
 							//Map<String, String> classPairNames = new HashMap<>();
 							for (IEdge edge : edgesList) {
-								if (edge.getStartNode() != edge.getEndNode()) {
+								if (edge.getStartNode() != edge.getEndNode() && bflag != true) {
 									if (edge instanceof AggregationEdge || edge instanceof CompositionEdge) {
 										INode startNode = edge.getStartNode();
 										INode endNode = edge.getEndNode();
 										checkClassPairExists(graph, startNode, endNode);
-
+										bflag = true;
 									}
 								}
 							}
-
 						}
+
 					}
 				}
+
 			}
 
 		});
 	}
 
+	/**
+	 * Init enable recursive relationship contraint
+	 */
+	private void initEnableRecursiveRelation() {
+		this.enableRecursiveRelationContraint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean bflag = false;
+				StringBuffer message = new StringBuffer();
+				IWorkspace workspace = mainFrame.getActiveWorkspace();
+				if (workspace != null) {
+					IGraphFile graphFile = workspace.getGraphFile();
+					if (graphFile != null) {
+						IGraph graph = graphFile.getGraph();
+						if (graph != null) {
+							Collection<IEdge> edgesList = graph.getAllEdges();
+							//Map<String, String> classPairNames = new HashMap<>();
+							for (IEdge edge : edgesList) {
+
+								if (edge.getStartNode() == edge.getEndNode()) {
+									dialogFactory.showErrorDialog("Recussion");
+
+								}
+							}
+
+
+						}
+					}
+
+				}
+			}
+		});
+	}
 	private void checkClassPairExists(IGraph graph, INode startNode, INode endNode) {
 		for (IEdge ie : graph.getAllEdges()) {
 			if (ie instanceof AggregationEdge || ie instanceof CompositionEdge) {
 				INode sn = ie.getStartNode();
 				INode en = ie.getEndNode();
 				if (sn.getId().equals(endNode.getId())
-						&& en.getId().equals(startNode.getId())) {
+						&& en.getId().equals(startNode.getId()))
+				{
 					dialogFactory.showErrorDialog("Bidirectional Aggregation/Composition Relationship Exists");
-					//System.out.println("recursion");
 				}
 			}
 		}
@@ -103,6 +139,9 @@ public class NewContraintsMenu extends JMenu {
 
 	@ResourceBundleBean(key = "constraints.bidirectional")
 	private JMenuItem enableBidirectionalRelationContraint;
+
+	@ResourceBundleBean(key = "constraints.recursive")
+	private JMenuItem enableRecursiveRelationContraint;
 
 	/**
 	 * DialogBox handler
