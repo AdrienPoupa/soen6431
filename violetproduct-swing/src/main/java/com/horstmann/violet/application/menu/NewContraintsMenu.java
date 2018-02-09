@@ -92,7 +92,7 @@ public class NewContraintsMenu extends JMenu {
 	private void initEnableRecursiveRelation() {
 		this.enableRecursiveRelationContraint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean bflag = false;
+				boolean rflag = false;
 				StringBuffer message = new StringBuffer();
 				IWorkspace workspace = mainFrame.getActiveWorkspace();
 				if (workspace != null) {
@@ -104,7 +104,8 @@ public class NewContraintsMenu extends JMenu {
 							//Map<String, String> classPairNames = new HashMap<>();
 							for (IEdge edge : edgesList) {
 
-								if (edge.getStartNode() == edge.getEndNode()) {
+								if (edge.getStartNode() == edge.getEndNode() && rflag != true) {
+									rflag = true;
 									dialogFactory.showErrorDialog("Recussion");
 
 								}
