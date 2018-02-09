@@ -487,7 +487,9 @@ public abstract class AbstractNode implements INode
      */
     @Override
     public void decrementCboCount() {
-        this.cboCount -= 1;
+        if (this.cboCount > 0) {
+            this.cboCount -= 1;
+        }
     }
 
     /**

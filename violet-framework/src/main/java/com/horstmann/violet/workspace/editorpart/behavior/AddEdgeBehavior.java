@@ -239,14 +239,6 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
                 {
                     newEdge.incrementRevision();
                     isAdded = true;
-                    // Increment cbo count only if both start and end nodes are not null;
-                    // this way we do not take self relationships into account
-                    if (startNode != null && endNode != null) {
-                        startNode.incrementCboCount();
-                        endNode.incrementCboCount();
-                        startNode.updateCbo();
-                        endNode.updateCbo();
-                    }
                 }
             }
             finally

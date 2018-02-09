@@ -321,6 +321,15 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             if(end != null)
             {
                 end.onConnectedEdge(e);
+
+                // Increment cbo count only if both start and end nodes are not null and different;
+                // this way we do not take self relationships into account
+                if (start != end) {
+                    start.incrementCboCount();
+                    end.incrementCboCount();
+                    start.updateCbo();
+                    end.updateCbo();
+                }
             }
 
             return true;
@@ -337,11 +346,15 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
             INode startingNode = anEdgeToRemove.getStartNode();
             INode endingNode = anEdgeToRemove.getEndNode();
             startingNode.removeConnection(anEdgeToRemove);
-            startingNode.decrementCboCount();
             endingNode.removeConnection(anEdgeToRemove);
-            endingNode.decrementCboCount();
-            startingNode.updateCbo();
-            endingNode.updateCbo();
+            // Decrement CBO count if starting and ending nodes are different
+            // this way we do not take self relationships into account
+            if (startingNode != endingNode) {
+                startingNode.decrementCboCount();
+                endingNode.decrementCboCount();
+                startingNode.updateCbo();
+                endingNode.updateCbo();
+            }
             this.edges.remove(anEdgeToRemove);
         }
     }
