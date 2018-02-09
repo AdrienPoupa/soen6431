@@ -209,6 +209,11 @@ public class UndoRedoOnAddBehavior extends AbstractEditorPartBehavior
                 {
                     super.redo();
                     IGraph graph = editorPart.getGraph();
+                    // Increment the CBO count on redo
+                    aSelectedEdge.getStartNode().incrementCboCount();
+                    aSelectedEdge.getEndNode().incrementCboCount();
+                    aSelectedEdge.getStartNode().updateCbo();
+                    aSelectedEdge.getEndNode().updateCbo();
                     graph.connect(aSelectedEdge, aSelectedEdge.getStartNode(), aSelectedEdge.getStartLocation(), aSelectedEdge.getEndNode(), aSelectedEdge.getEndLocation(), aSelectedEdge.getTransitionPoints());
                 }
             };
