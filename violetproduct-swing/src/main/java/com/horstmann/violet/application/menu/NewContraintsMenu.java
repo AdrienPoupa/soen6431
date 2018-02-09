@@ -57,27 +57,18 @@ public class NewContraintsMenu extends JMenu {
 		this.enableBidirectionalRelationContraint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean bflag = false;
-				StringBuffer message = new StringBuffer();
 				IWorkspace workspace = mainFrame.getActiveWorkspace();
-				if (workspace != null) {
-					IGraphFile graphFile = workspace.getGraphFile();
-					if (graphFile != null) {
-						IGraph graph = graphFile.getGraph();
-						if (graph != null) {
-							Collection<IEdge> edgesList = graph.getAllEdges();
-							//Map<String, String> classPairNames = new HashMap<>();
-							for (IEdge edge : edgesList) {
-								if (edge.getStartNode() != edge.getEndNode() && bflag != true) {
-									if (edge instanceof AggregationEdge || edge instanceof CompositionEdge) {
-										INode startNode = edge.getStartNode();
-										INode endNode = edge.getEndNode();
-										checkClassPairExists(graph, startNode, endNode);
-										bflag = true;
-									}
-								}
+				if (workspace != null && workspace.getGraphFile() != null
+						&& workspace.getGraphFile().getGraph() != null) {
+					Collection<IEdge> edgesList = workspace.getGraphFile().getGraph().getAllEdges();
+					for (IEdge edge : edgesList) {
+						if (edge.getStartNode() != edge.getEndNode() && bflag != true) {
+							if (edge instanceof AggregationEdge || edge instanceof CompositionEdge) {
+								INode startNode = edge.getStartNode();
+								INode endNode = edge.getEndNode();
+								bflag = checkClassPairExists(edgesList, startNode, endNode);
 							}
 						}
-
 					}
 				}
 
@@ -119,8 +110,13 @@ public class NewContraintsMenu extends JMenu {
 			}
 		});
 	}
-	private void checkClassPairExists(IGraph graph, INode startNode, INode endNode) {
-		for (IEdge ie : graph.getAllEdges()) {
+	
+	/**
+	 * Check whether any aggregatioon/composition edge has
+	 *  @param startNode as endnode and @param endNode as startnode
+	 */
+	private boolean checkClassPairExists(Collection<IEdge> edgeList, INode startNode, INode endNode) {
+		for (IEdge ie : edgeList) {
 			if (ie instanceof AggregationEdge || ie instanceof CompositionEdge) {
 				INode sn = ie.getStartNode();
 				INode en = ie.getEndNode();
@@ -128,9 +124,11 @@ public class NewContraintsMenu extends JMenu {
 						&& en.getId().equals(startNode.getId()))
 				{
 					dialogFactory.showErrorDialog("Bidirectional Aggregation/Composition Relationship Exists");
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 	
 	/**
