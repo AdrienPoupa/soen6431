@@ -86,6 +86,32 @@ public class NewFeatures extends JMenu
             activeEditor.getSwingComponent().repaint();
         });
         this.add(cboMenuItem);
+
+//        // REC item
+//        recMenuItem.setSelected(true);
+//        recMenuItem.addItemListener(e -> {
+//
+//            if (mainFrame.getWorkspaceList().size() == 0) return;
+//
+//            IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+//            IEditorPart activeEditor = activeWorkspace.getEditorPart();
+//            IGraph activeGraph = activeEditor.getGraph();
+//            Collection<INode> nodes = activeGraph.getAllNodes();
+//
+//            if (recMenuItem.isSelected()) {
+//                for(INode node: nodes) {
+//                    node.enableRec();
+//                }
+//            }
+//            if (!recMenuItem.isSelected()) {
+//                for(INode node: nodes) {
+//                    node.disableRec();
+//                }
+//            }
+//
+//            activeEditor.getSwingComponent().repaint();
+//        });
+//        this.add(recMenuItem);
     }
 
 
@@ -96,4 +122,5 @@ public class NewFeatures extends JMenu
 
     @ResourceBundleBean(key = "newf.cbo")
     private JCheckBoxMenuItem cboMenuItem;
+//    private JCheckBoxMenuItem recMenuItem;
 }

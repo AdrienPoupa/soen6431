@@ -44,7 +44,7 @@ public class NewContraintsMenu extends JMenu {
 	 */
 	private void createMenu() {
 		initEnableBidirectionalRelation();
-		initEnableRecursiveRelation();
+		//initEnableRecursiveRelation();
 		this.add(this.enableBidirectionalRelationContraint);
 		this.add(this.enableRecursiveRelationContraint);
 
@@ -77,24 +77,7 @@ public class NewContraintsMenu extends JMenu {
 	/**
 	 * Init enable recursive relationship contraint
 	 */
-	private void initEnableRecursiveRelation() {
-		this.enableRecursiveRelationContraint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean rflag = false;
-				IWorkspace workspace = mainFrame.getActiveWorkspace();
-				if (workspace != null && workspace.getGraphFile() != null
-						&& workspace.getGraphFile().getGraph() != null) {
-					Collection<IEdge> edgesList = workspace.getGraphFile().getGraph().getAllEdges();
-					for (IEdge edge : edgesList) {
-						if (edge.getStartNode() == edge.getEndNode() && rflag != true) {
-							rflag = true;
-							dialogFactory.showErrorDialog("Recussion");
-						}
-					}
-				}
-			}
-		});
-	}
+
 	
 	/**
 	 * Check whether any aggregatioon/composition edge has

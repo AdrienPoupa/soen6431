@@ -1,6 +1,8 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.content.VerticalLayout;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
 import com.horstmann.violet.product.diagram.property.text.decorator.*;
 import com.horstmann.violet.product.diagram.property.text.LineText;
@@ -16,6 +19,7 @@ import com.horstmann.violet.product.diagram.abstracts.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.workspace.IWorkspace;
 
 /**
  * A class node in a class diagram.
@@ -23,6 +27,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 public class ClassNode extends ColorableNode
 {
     private TextContent cboContent;
+    private TextContent recContent;
     private VerticalLayout verticalGroupContent;
 
 	/**
@@ -35,6 +40,8 @@ public class ClassNode extends ColorableNode
         name.setAlignment(LineText.CENTER);
         cbo = new SingleLineText(NAME_CONVERTER);
         cbo.setAlignment(LineText.CENTER);
+        rec = new SingleLineText(NAME_CONVERTER);
+        rec.setAlignment(LineText.CENTER);
         attributes = new MultiLineText(PROPERTY_CONVERTER);
         methods = new MultiLineText(PROPERTY_CONVERTER);
         createContentStructure();
@@ -47,6 +54,7 @@ public class ClassNode extends ColorableNode
         attributes = node.attributes.clone();
         methods = node.methods.clone();
         cbo = node.cbo.clone();
+        rec = node.rec.clone();
         createContentStructure();
     }
 
@@ -71,12 +79,18 @@ public class ClassNode extends ColorableNode
         {
             methods = new MultiLineText();
         }
+        if(null == rec)
+        {
+            rec = new SingleLineText();
+        }
         name.reconstruction(NAME_CONVERTER);
         cbo.reconstruction(NAME_CONVERTER);
+        rec.reconstruction(NAME_CONVERTER);
         attributes.reconstruction(PROPERTY_CONVERTER);
         methods.reconstruction(PROPERTY_CONVERTER);
         name.setAlignment(LineText.CENTER);
         cbo.setAlignment(LineText.CENTER);
+        rec.setAlignment(LineText.CENTER);
     }
 
     @Override
@@ -89,18 +103,23 @@ public class ClassNode extends ColorableNode
     protected void createContentStructure()
     {
         updateCbo();
+        updateRec();
         TextContent nameContent = new TextContent(name);
         cboContent = new TextContent(cbo);
+        recContent = new TextContent(rec);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
         cboContent.setMinHeight(MIN_NAME_HEIGHT);
         cboContent.setMinWidth(MIN_WIDTH);
+        recContent.setMinHeight(MIN_NAME_HEIGHT);
+        recContent.setMinWidth(MIN_WIDTH);
         TextContent attributesContent = new TextContent(attributes);
         TextContent methodsContent = new TextContent(methods);
 
         verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(cboContent);
+        verticalGroupContent.add(recContent);
         verticalGroupContent.add(attributesContent);
         verticalGroupContent.add(methodsContent);
         separator = new Separator.LineSeparator(getBorderColor());
@@ -132,6 +151,7 @@ public class ClassNode extends ColorableNode
         attributes.setTextColor(textColor);
         methods.setTextColor(textColor);
         cbo.setTextColor(textColor);
+        rec.setTextColor(textColor);
         super.setTextColor(textColor);
     }
 
@@ -290,6 +310,20 @@ public class ClassNode extends ColorableNode
         cbo.setText(cboLocale + " " + cboCount);
     }
 
+    public void updateRec() {
+        boolean rflag = false;
+        if (this.getGraph() != null) {
+            this.getGraph().getAllEdges();
+            Collection<IEdge> edgesList = this.getGraph().getAllEdges();
+            for (IEdge edge : edgesList) {
+                if (edge.getStartNode() == edge.getEndNode() && rflag != true) {
+                    rflag = true;
+                    rec.setText("Recursion");
+                    System.out.println("Recursion");
+                }
+            }
+        }
+    }
     /**
      * Displays the CBO count
      */
@@ -306,5 +340,22 @@ public class ClassNode extends ColorableNode
     public void disableCbo()
     {
         verticalGroupContent.remove(cboContent);
+    }
+    /**
+     * Displays the Recursion Text
+     */
+    @Override
+    public void enableRec()
+    {
+        verticalGroupContent.add(recContent);
+    }
+
+    /**
+     * Hides the Recursion
+     */
+    @Override
+    public void disableRec()
+    {
+        verticalGroupContent.remove(recContent);
     }
 }

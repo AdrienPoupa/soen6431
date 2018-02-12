@@ -471,6 +471,7 @@ public abstract class AbstractNode implements INode
 
     private Point2D location;
     protected SingleLineText cbo;
+    protected SingleLineText rec;
 
     protected int cboCount;
 
@@ -512,4 +513,25 @@ public abstract class AbstractNode implements INode
      */
     @Override
     public void disableCbo() { }
+
+    /**
+     * Updates the Recursion text
+     * Implemented in ClassNode
+     */
+    @Override
+    public void updateRec() { }
+
+    /**
+     * Displays the Recursion
+     * Implemented in ClassNode
+     */
+    @Override
+    public void enableRec() { }
+
+    /**
+     * Hides the Recursion
+     * Implemented in ClassNode
+     */
+    @Override
+    public void disableRec() { }
 }

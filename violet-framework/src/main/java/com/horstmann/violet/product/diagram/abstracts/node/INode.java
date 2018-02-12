@@ -230,4 +230,20 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * Hides CBO count
      */
     void disableCbo();
+
+    /**
+     * Updates the Recursion text
+     */
+    void updateRec();
+
+    /**
+     * Displays Recursion
+     */
+    void enableRec();
+
+    /**
+     * Hides Recursion
+     */
+    void disableRec();
+
 }

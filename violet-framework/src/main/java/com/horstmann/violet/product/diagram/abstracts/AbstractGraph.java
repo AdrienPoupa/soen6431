@@ -329,6 +329,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
                     end.incrementCboCount();
                     start.updateCbo();
                     end.updateCbo();
+                    start.updateRec();
                 }
             }
 
