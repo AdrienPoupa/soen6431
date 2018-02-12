@@ -71,12 +71,9 @@ public class NewContraintsMenu extends JMenu {
 						}
 					}
 				}
-
 			}
-
 		});
 	}
-
 	/**
 	 * Init enable recursive relationship contraint
 	 */
@@ -84,28 +81,16 @@ public class NewContraintsMenu extends JMenu {
 		this.enableRecursiveRelationContraint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean rflag = false;
-				StringBuffer message = new StringBuffer();
 				IWorkspace workspace = mainFrame.getActiveWorkspace();
-				if (workspace != null) {
-					IGraphFile graphFile = workspace.getGraphFile();
-					if (graphFile != null) {
-						IGraph graph = graphFile.getGraph();
-						if (graph != null) {
-							Collection<IEdge> edgesList = graph.getAllEdges();
-							//Map<String, String> classPairNames = new HashMap<>();
-							for (IEdge edge : edgesList) {
-
-								if (edge.getStartNode() == edge.getEndNode() && rflag != true) {
-									rflag = true;
-									dialogFactory.showErrorDialog("Recussion");
-
-								}
-							}
-
-
+				if (workspace != null && workspace.getGraphFile() != null
+						&& workspace.getGraphFile().getGraph() != null) {
+					Collection<IEdge> edgesList = workspace.getGraphFile().getGraph().getAllEdges();
+					for (IEdge edge : edgesList) {
+						if (edge.getStartNode() == edge.getEndNode() && rflag != true) {
+							rflag = true;
+							dialogFactory.showErrorDialog("Recussion");
 						}
 					}
-
 				}
 			}
 		});
