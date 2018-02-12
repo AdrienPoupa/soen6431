@@ -91,6 +91,8 @@ public class NewContraintsMenu extends JMenu {
 							dialogFactory.showErrorDialog("Recussion");
 						}
 					}
+					if(!rflag)
+						dialogFactory.showErrorDialog("No Recussion");
 				}
 			}
 		});
