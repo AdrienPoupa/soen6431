@@ -19,8 +19,10 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
 /**
  * This class contains menu items for contraints to be applied class diagram
@@ -53,10 +55,39 @@ public class NewContraintsMenu extends JMenu {
 		initCheckBidirectionalRelationMenu();
 		initEnableRecursiveRelation();
 		initEnableBidirectionalRelationCheckbox();
+		initCboMenuItem();
 		this.add(this.checkBidirectionalRelation);
 		this.add(this.enableRecursiveRelationContraint);
 		this.add(this.bidirectionalRelationCheckBox);
+		this.add(this.cboMenuItem);
 
+	}
+	
+	private void initCboMenuItem() {
+		cboMenuItem.setSelected(true);
+		cboMenuItem.addItemListener(e -> {
+
+			if (mainFrame.getWorkspaceList().size() == 0)
+				return;
+
+			IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+			IEditorPart activeEditor = activeWorkspace.getEditorPart();
+			IGraph activeGraph = activeEditor.getGraph();
+			Collection<INode> nodes = activeGraph.getAllNodes();
+
+			if (cboMenuItem.isSelected()) {
+				for (INode node : nodes) {
+					node.enableCbo();
+				}
+			}
+			if (!cboMenuItem.isSelected()) {
+				for (INode node : nodes) {
+					node.disableCbo();
+				}
+			}
+
+			activeEditor.getSwingComponent().repaint();
+		});
 	}
 
 	private void initEnableBidirectionalRelationCheckbox() {
@@ -142,6 +173,8 @@ public class NewContraintsMenu extends JMenu {
 	@ResourceBundleBean(key = "constraints.bidirectional.enable")
 	private JCheckBoxMenuItem bidirectionalRelationCheckBox;
 
+	@ResourceBundleBean(key = "newf.cbo")
+	private JCheckBoxMenuItem cboMenuItem;
 	/**
 	 * DialogBox handler
 	 */

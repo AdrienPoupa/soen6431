@@ -99,19 +99,6 @@ public class MenuFactory
         return this.documentMenu;
     }
 
-    /**
-     * @param editorFrame
-     * @return newFeatures menu
-     */
-    public NewFeatures getnewFeatures(MainFrame editorFrame)
-    {
-        if (this.newFeatures == null)
-        {
-            this.newFeatures = new NewFeatures(editorFrame);
-        }
-        return this.newFeatures;
-    }
-
     public NewContraintsMenu getNewContraintsMenu(MainFrame editorFrame)
     {
         if (this.newContraintsMenu == null)
@@ -126,7 +113,6 @@ public class MenuFactory
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
-    private NewFeatures newFeatures;
     private NewContraintsMenu newContraintsMenu;
 
 }
