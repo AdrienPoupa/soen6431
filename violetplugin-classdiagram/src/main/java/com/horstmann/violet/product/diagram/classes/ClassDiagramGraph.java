@@ -48,9 +48,23 @@ public class ClassDiagramGraph extends AbstractGraph
     
 	@Override
 	public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode) {
-		for (IEdge e : getAllEdges()) {
+		Collection<IEdge> edgesList = getAllEdges();
+		for (IEdge e : edgesList) {
 			if (e instanceof AggregationEdge || e instanceof CompositionEdge) {
-				if (e.getEndNode().equals(startNode) && e.getStartNode().equals(endNode)) {
+				if (e.getEndNode().equals(startNode) && e.getStartNode().equals(endNode) && startNode != endNode) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isRecursiveRelationAllowed(INode startNode, INode endNode) {
+		Collection<IEdge> edgesList = getAllEdges();
+		for (IEdge e : edgesList) {
+			if (e instanceof AggregationEdge || e instanceof CompositionEdge) {
+				if (startNode == endNode) {
 					return false;
 				}
 			}

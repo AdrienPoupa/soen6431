@@ -157,19 +157,37 @@ public interface IGraph
     public void setGridSticker(IGridSticker newCorrector);
     
     /**
+     * Sets the bidirectional check
      * @param bidirectional constraint to be applied on graph
      */
-    public void setBirectionalRelationConstraint(boolean bidirectionalFlag);
+    public void setBirectionalRelationConstraint(boolean birectionalRelationConstraint);
     
     /**
+     * Gets the bidirectional relationship check
      * @return boolean bidirection Relation constraint applied on graph
      */
     public boolean getBirectionalRelationConstraint();
+
+    /**
+     * Sets the recursive relationship check
+     * @param selfRelationConstraint boolean
+     */
+    public void setRecursiveRelationConstraint(boolean selfRelationConstraint);
+
+    /**
+     * Gets the recursive relationship check
+     * @return boolean
+     */
+    public boolean getRecursiveRelationConstraint();
     
-    /***
-    *
+    /**
     * @return whether pair of start and end points already have aggregation/composition relations
     */
-   public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode);
-    
+    public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode);
+
+
+    /**
+     * @return whether pair of start and end points already have recursive relations
+     */
+    public boolean isRecursiveRelationAllowed(INode startNode, INode endNode);
 }

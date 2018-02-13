@@ -47,6 +47,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     {
         nodes = new ArrayList<INode>();
         edges = new ArrayList<IEdge>();
+        bidirectionalRelationConstraint = true;
+        recursiveRelationConstraint = true;
     }
 
     @Override
@@ -386,7 +388,12 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
 	public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode) {
 		return true;
 	}
-	
+
+    @Override
+	public boolean isRecursiveRelationAllowed(INode startNode, INode endNode) {
+		return true;
+	}
+
     @Override
     public void setGridSticker(IGridSticker positionCorrector)
     {
@@ -394,8 +401,8 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
     
     @Override
-    public void setBirectionalRelationConstraint(boolean bidirectionalFlag) {
-    	this.bidirectionalRelationConstraint = bidirectionalFlag;
+    public void setBirectionalRelationConstraint(boolean bidirectionalRelationConstraint) {
+    	this.bidirectionalRelationConstraint = bidirectionalRelationConstraint;
 	}
     
     @Override
@@ -403,9 +410,20 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     	return bidirectionalRelationConstraint;
     }
 
+    @Override
+    public void setRecursiveRelationConstraint(boolean selfRelationConstraint) {
+        this.recursiveRelationConstraint = selfRelationConstraint;
+    }
+
+    @Override
+    public boolean getRecursiveRelationConstraint(){
+        return recursiveRelationConstraint;
+    }
+
     private ArrayList<INode> nodes;
     private ArrayList<IEdge> edges;
     private transient Rectangle2D minBounds;
     private transient IGridSticker gridSticker;
-    private boolean bidirectionalRelationConstraint = true;
+    private boolean bidirectionalRelationConstraint;
+    private boolean recursiveRelationConstraint;
 }

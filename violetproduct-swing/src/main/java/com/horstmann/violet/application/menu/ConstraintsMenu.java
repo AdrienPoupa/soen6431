@@ -48,10 +48,12 @@ public class ConstraintsMenu extends JMenu {
 		initCheckBidirectionalRelationMenu();
 		initEnableRecursiveRelation();
 		initEnableBidirectionalRelationCheckbox();
+        initEnableRecursiveRelationCheckbox();
 		initCboMenuItem();
 		this.add(this.checkBidirectionalRelation);
 		this.add(this.enableRecursiveRelationconstraint);
 		this.add(this.bidirectionalRelationCheckBox);
+		this.add(this.recursiveRelationCheckBox);
 		this.add(this.cboMenuItem);
 
 	}
@@ -93,10 +95,10 @@ public class ConstraintsMenu extends JMenu {
 			if (workspace != null && workspace.getGraphFile() != null
 					&& workspace.getGraphFile().getGraph() != null) {
 				IGraph graph = workspace.getGraphFile().getGraph();
-				if(bidirectionalRelationCheckBox.isSelected()){
+				if (bidirectionalRelationCheckBox.isSelected()){
 					graph.setBirectionalRelationConstraint(true);
 				}
-				else{
+				else {
 					graph.setBirectionalRelationConstraint(false);
 				}
 			}
@@ -104,6 +106,28 @@ public class ConstraintsMenu extends JMenu {
 		});
 		
 	}
+
+    /**
+     * Init menu item for enabling bidirectional relationships
+     */
+    private void initEnableRecursiveRelationCheckbox() {
+        this.recursiveRelationCheckBox.setSelected(true);
+        this.recursiveRelationCheckBox.addItemListener(e -> {
+            IWorkspace workspace = mainFrame.getActiveWorkspace();
+            if (workspace != null && workspace.getGraphFile() != null
+                    && workspace.getGraphFile().getGraph() != null) {
+                IGraph graph = workspace.getGraphFile().getGraph();
+                if (recursiveRelationCheckBox.isSelected()){
+                    graph.setRecursiveRelationConstraint(true);
+                }
+                else {
+                    graph.setRecursiveRelationConstraint(false);
+                }
+            }
+
+        });
+
+    }
 
 	/**
 	 * Init menu item for checking bidirectional relationship constraint
@@ -162,6 +186,9 @@ public class ConstraintsMenu extends JMenu {
 	
 	@ResourceBundleBean(key = "constraints.bidirectional.enable")
 	private JCheckBoxMenuItem bidirectionalRelationCheckBox;
+
+	@ResourceBundleBean(key = "constraints.recursion.enable")
+	private JCheckBoxMenuItem recursiveRelationCheckBox;
 
 	@ResourceBundleBean(key = "constraints.cbo")
 	private JCheckBoxMenuItem cboMenuItem;
