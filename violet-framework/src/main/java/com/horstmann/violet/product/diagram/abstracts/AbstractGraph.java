@@ -383,13 +383,29 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
     }
 
     @Override
+	public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode) {
+		return true;
+	}
+	
+    @Override
     public void setGridSticker(IGridSticker positionCorrector)
     {
         this.gridSticker = positionCorrector;
+    }
+    
+    @Override
+    public void setBirectionalRelationConstraint(boolean bidirectionalFlag) {
+    	this.bidirectionalRelationConstraint = bidirectionalFlag;
+	}
+    
+    @Override
+    public boolean getBirectionalRelationConstraint(){
+    	return bidirectionalRelationConstraint;
     }
 
     private ArrayList<INode> nodes;
     private ArrayList<IEdge> edges;
     private transient Rectangle2D minBounds;
     private transient IGridSticker gridSticker;
+    private boolean bidirectionalRelationConstraint = true;
 }

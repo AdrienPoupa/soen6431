@@ -2,10 +2,11 @@ package com.horstmann.violet.application.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -18,11 +19,17 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.classes.edge.AggregationEdge;
-import com.horstmann.violet.product.diagram.classes.edge.CompositionEdge;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 
+/**
+ * This class contains menu items for contraints to be applied class diagram
+ * 1. Enable/ disable bidirectional relationship contraint for aggregation and composition relationship
+ * 2. Check bidirectional aggregation/composition relationships exists in class diagram 
+ * 3. Check recursive aggregation/composition relationshhips exist in class diagram
+ * @author amanp
+ *
+ */
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class NewContraintsMenu extends JMenu {
 
@@ -43,31 +50,54 @@ public class NewContraintsMenu extends JMenu {
 	 * Initialize the menu
 	 */
 	private void createMenu() {
-		initEnableBidirectionalRelation();
+		initCheckBidirectionalRelationMenu();
 		initEnableRecursiveRelation();
-		this.add(this.enableBidirectionalRelationContraint);
+		initEnableBidirectionalRelationCheckbox();
+		this.add(this.checkBidirectionalRelation);
 		this.add(this.enableRecursiveRelationContraint);
+		this.add(this.bidirectionalRelationCheckBox);
 
 	}
 
-	/**
-	 * Init enable bidirectional relationship contraint
-	 */
-	private void initEnableBidirectionalRelation() {
-		this.enableBidirectionalRelationContraint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean bflag = false;
+	private void initEnableBidirectionalRelationCheckbox() {
+		this.bidirectionalRelationCheckBox.setSelected(true);
+		this.bidirectionalRelationCheckBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
 				IWorkspace workspace = mainFrame.getActiveWorkspace();
 				if (workspace != null && workspace.getGraphFile() != null
 						&& workspace.getGraphFile().getGraph() != null) {
-					Collection<IEdge> edgesList = workspace.getGraphFile().getGraph().getAllEdges();
-					for (IEdge edge : edgesList) {
-						if (edge.getStartNode() != edge.getEndNode() && bflag != true) {
-							if (edge instanceof AggregationEdge || edge instanceof CompositionEdge) {
-								INode startNode = edge.getStartNode();
-								INode endNode = edge.getEndNode();
-								bflag = checkClassPairExists(edgesList, startNode, endNode);
-							}
+					IGraph graph = workspace.getGraphFile().getGraph();
+					if(bidirectionalRelationCheckBox.isSelected()){
+						graph.setBirectionalRelationConstraint(true);
+					} 
+					else{
+						graph.setBirectionalRelationConstraint(false);
+					}
+				}
+				
+			}
+		});
+		
+	}
+
+	/**
+	 * Init menu item for checking bidirectional relationship constraint
+	 */
+	private void initCheckBidirectionalRelationMenu() {
+		this.checkBidirectionalRelation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IWorkspace workspace = mainFrame.getActiveWorkspace();
+				if (workspace != null && workspace.getGraphFile() != null
+						&& workspace.getGraphFile().getGraph() != null) {
+					IGraph graph = workspace.getGraphFile().getGraph();
+					if(graph instanceof ClassDiagramGraph){
+						ClassDiagramGraph classGraph = (ClassDiagramGraph) graph;
+						if(classGraph.isBidirectionalRelationExist()){
+							dialogFactory.showErrorDialog("Bidirectional aggregation/composition relationship exists");
+						}
+						else{
+							dialogFactory.showInformationDialog("No Bidirectional aggregation/composition relationship exists");
 						}
 					}
 				}
@@ -110,42 +140,26 @@ public class NewContraintsMenu extends JMenu {
 			}
 		});
 	}
-	
-	/**
-	 * Check whether any aggregatioon/composition edge has
-	 *  @param startNode as endnode and @param endNode as startnode
-	 */
-	private boolean checkClassPairExists(Collection<IEdge> edgeList, INode startNode, INode endNode) {
-		for (IEdge ie : edgeList) {
-			if (ie instanceof AggregationEdge || ie instanceof CompositionEdge) {
-				INode sn = ie.getStartNode();
-				INode en = ie.getEndNode();
-				if (sn.getId().equals(endNode.getId())
-						&& en.getId().equals(startNode.getId()))
-				{
-					dialogFactory.showErrorDialog("Bidirectional Aggregation/Composition Relationship Exists");
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
+
 	/**
 	 * Application main frame
 	 */
 	private MainFrame mainFrame;
 
-	@ResourceBundleBean(key = "constraints.bidirectional")
-	private JMenuItem enableBidirectionalRelationContraint;
+	@ResourceBundleBean(key = "constraints.bidirectional.check")
+	private JMenuItem checkBidirectionalRelation;
 
 	@ResourceBundleBean(key = "constraints.recursive")
 	private JMenuItem enableRecursiveRelationContraint;
+	
+	@ResourceBundleBean(key = "constraints.bidirectional.enable")
+	private JCheckBoxMenuItem bidirectionalRelationCheckBox;
 
 	/**
 	 * DialogBox handler
 	 */
 	@InjectedBean
 	private DialogFactory dialogFactory;
-
+	
+  
 }

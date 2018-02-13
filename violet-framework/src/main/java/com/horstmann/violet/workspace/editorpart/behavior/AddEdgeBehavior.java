@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -67,6 +68,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
                 return;
             }
             endAction(event);
+            
             return;
         }
     }
@@ -178,19 +180,26 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
         this.transitionPoints.add(this.lastMousePoint);
     }
 
-    private void endAction(MouseEvent event)
-    {
-        boolean added = addEdgeAtPoints(this.newEdge, firstMousePoint, lastMousePoint);
-        if (added)
-        {
-            this.selectionHandler.setSelectedElement(this.newEdge);
-        }
-        this.isLinkingInProgress = false;
-        this.isLinkBySeparatedClicks = false;
-        this.transitionPoints.clear();
-        this.newEdge = null;
-        
-    }
+	private void endAction(MouseEvent event) {
+		boolean added = addEdgeAtPoints(this.newEdge, firstMousePoint, lastMousePoint);
+		if (added) {
+			this.selectionHandler.setSelectedElement(this.newEdge);
+		}
+
+		boolean isBidirectionalAllowed = true;
+		if (this.graph.getBirectionalRelationConstraint()
+				&& !this.graph.isBidirectionalRelationAllowed(this.newEdge.getStartNode(), this.newEdge.getEndNode())) {
+			isBidirectionalAllowed = false;
+		}
+		this.isLinkingInProgress = false;
+		this.isLinkBySeparatedClicks = false;
+		this.transitionPoints.clear();
+		this.newEdge = null;
+		if (!isBidirectionalAllowed) {
+			dialogFactory.showWarningDialog("Bidirectional aggregation/composition relationship is created");
+		}
+
+	}
 
     private void cancel()
     {

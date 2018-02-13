@@ -1,8 +1,10 @@
 package com.horstmann.violet.product.diagram.classes;
 
+import java.awt.geom.Point2D;
 import java.util.*;
 
 import com.horstmann.violet.product.diagram.abstracts.AbstractGraph;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 
@@ -14,6 +16,14 @@ import com.horstmann.violet.product.diagram.common.node.NoteNode;
 
 /**
  * A UML class diagram.
+ */
+/**
+ * @author amanp
+ *
+ */
+/**
+ * @author amanp
+ *
  */
 public class ClassDiagramGraph extends AbstractGraph
 {
@@ -45,4 +55,32 @@ public class ClassDiagramGraph extends AbstractGraph
             new CompositionEdge(),
             new NoteEdge()
     ));
+    
+	@Override
+	public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode) {
+		for (IEdge e : getAllEdges()) {
+			if (e instanceof AggregationEdge || e instanceof CompositionEdge) {
+				if (e.getEndNode().equals(startNode) && e.getStartNode().equals(endNode)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * @return check whether bidirectional aggregation or composition relationships exists in graph
+	 */
+	public boolean isBidirectionalRelationExist() {
+		boolean bflag = true;
+		Collection<IEdge> edgesList = getAllEdges();
+		for (IEdge edge : edgesList) {
+			if (edge.getStartNode() != edge.getEndNode() && bflag) {
+				if (edge instanceof AggregationEdge || edge instanceof CompositionEdge) {
+					bflag = isBidirectionalRelationAllowed(edge.getStartNode(), edge.getEndNode());
+				}
+			}
+		}
+		return !bflag;
+	}
 }

@@ -156,5 +156,20 @@ public interface IGraph
      */
     public void setGridSticker(IGridSticker newCorrector);
     
+    /**
+     * @param bidirectional constraint to be applied on graph
+     */
+    public void setBirectionalRelationConstraint(boolean bidirectionalFlag);
+    
+    /**
+     * @return boolean bidirection Relation constraint applied on graph
+     */
+    public boolean getBirectionalRelationConstraint();
+    
+    /***
+    *
+    * @return whether pair of start and end points already have aggregation/composition relations
+    */
+   public boolean isBidirectionalRelationAllowed(INode startNode, INode endNode);
     
 }
