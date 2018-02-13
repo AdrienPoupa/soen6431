@@ -99,13 +99,17 @@ public class MenuFactory
         return this.documentMenu;
     }
 
-    public NewContraintsMenu getNewContraintsMenu(MainFrame editorFrame)
+    /**
+     * @param editorFrame
+     * @return constraints menu
+     */
+    public ConstraintsMenu getConstraintsMenu(MainFrame editorFrame)
     {
-        if (this.newContraintsMenu == null)
+        if (this.constraintsMenu == null)
         {
-            this.newContraintsMenu = new NewContraintsMenu(editorFrame);
+            this.constraintsMenu = new ConstraintsMenu(editorFrame);
         }
-        return this.newContraintsMenu;
+        return this.constraintsMenu;
     }
     
     private EditMenu editMenu;
@@ -113,6 +117,6 @@ public class MenuFactory
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
-    private NewContraintsMenu newContraintsMenu;
+    private ConstraintsMenu constraintsMenu;
 
 }

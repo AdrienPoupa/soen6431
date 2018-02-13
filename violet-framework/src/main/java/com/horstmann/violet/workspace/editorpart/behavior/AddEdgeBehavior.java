@@ -195,10 +195,10 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
 		this.isLinkBySeparatedClicks = false;
 		this.transitionPoints.clear();
 		this.newEdge = null;
-		if (!isBidirectionalAllowed) {
-			dialogFactory.showWarningDialog("Bidirectional aggregation/composition relationship is created");
-		}
 
+		if (!isBidirectionalAllowed) {
+            dialogFactory.showWarningDialog(noBidirectionalMessage);
+		}
 	}
 
     private void cancel()
@@ -340,6 +340,9 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior implements IGrap
     
     @ResourceBundleBean(key = "addedge.properties.no_drag_message")
     private String noDragMessage;
+
+    @ResourceBundleBean(key = "addedge.properties.no_bidirectional")
+    private String noBidirectionalMessage;
 
 
 }
