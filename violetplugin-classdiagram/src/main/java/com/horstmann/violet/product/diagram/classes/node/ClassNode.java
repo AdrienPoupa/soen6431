@@ -307,4 +307,36 @@ public class ClassNode extends ColorableNode
     {
         verticalGroupContent.remove(cboContent);
     }
+
+    /**
+     * Getter for verticalGroupContent
+     * @return VerticalLayout
+     */
+    public VerticalLayout getVerticalGroupContent() {
+        return verticalGroupContent;
+    }
+
+    /**
+     * Setter for verticalGroupContent
+     * @param verticalGroupContent
+     */
+    public void setVerticalGroupContent(VerticalLayout verticalGroupContent) {
+        this.verticalGroupContent = verticalGroupContent;
+    }
+
+    /**
+     * Getter for cboContent
+     * @return TextContent
+     */
+    public TextContent getCboContent() {
+        return cboContent;
+    }
+
+    /**
+     * Setter for cboContent
+     * @param cboContent
+     */
+    public void setCboContent(TextContent cboContent) {
+        this.cboContent = cboContent;
+    }
 }

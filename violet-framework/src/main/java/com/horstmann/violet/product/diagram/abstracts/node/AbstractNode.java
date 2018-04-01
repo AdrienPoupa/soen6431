@@ -493,6 +493,38 @@ public abstract class AbstractNode implements INode
     }
 
     /**
+     * CBO count getter
+     * @return int CBO count
+     */
+    public int getCboCount() {
+        return cboCount;
+    }
+
+    /**
+     * CBO count setter
+     * @param cboCount int CBO count
+     */
+    public void setCboCount(int cboCount) {
+        this.cboCount = cboCount;
+    }
+
+    /**
+     * CBO setter
+     * @return SingleLineText cbo
+     */
+    public SingleLineText getCbo() {
+        return cbo;
+    }
+
+    /**
+     * CBO setter
+     * @param cbo SingleLineText cbo
+     */
+    public void setCbo(SingleLineText cbo) {
+        this.cbo = cbo;
+    }
+
+    /**
      * Updates the CBO text value
      * Implemented in ClassNode
      */

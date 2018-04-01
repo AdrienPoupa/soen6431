@@ -88,7 +88,7 @@ public abstract class Layout extends Content
     /**
      * @return a list of elements in layout
      */
-    protected final List<Content> getContents()
+    public final List<Content> getContents()
     {
         return contents;
     }
