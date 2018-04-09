@@ -24,6 +24,7 @@ public class ClassDiagramGraphTest {
 		edge2 = new AggregationEdge();
 	}
 
+	//--- Bidirectional ---
 	@Test
 	public void testIsBidirectionalRelationAllowedFalse1() {
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
@@ -71,6 +72,36 @@ public class ClassDiagramGraphTest {
 		Assert.assertFalse(classDiagram.isBidirectionalRelationExist());
 	}
 
+	// ---- Recursive ----
+	@Test
+	public void test_isRecursiveRelationAllowedTrue() {
+		classDiagram.connect(edge1, startNode, null, endNode, null, null);
+		Assert.assertEquals(true, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+	}
+	
+	@Test
+	public void testisRecursiveRelationAllowedFalse() {
+		endNode = startNode;
+		classDiagram.connect(edge1, startNode, null, endNode, null, null);
+		Assert.assertEquals(false, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+	}
+	
+	@Test
+	public void test_isRecursiveRelationAllowedTrue2() {
+		edge1 = new CompositionEdge();
+		classDiagram.connect(edge1, startNode, null, endNode, null, null);
+		Assert.assertEquals(true, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+	}
+	
+	@Test
+	public void testisRecursiveRelationAllowedFalse2() {
+		endNode = startNode;
+		edge1 = new CompositionEdge();
+		classDiagram.connect(edge1, startNode, null, endNode, null, null);
+		Assert.assertEquals(false, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+	}
+	
+	// ---- CBO ----
 	@Test
 	public void testConnectStartEqualsToEnd() {
 		classDiagram.connect(edge2, startNode, null, startNode, null, null);
