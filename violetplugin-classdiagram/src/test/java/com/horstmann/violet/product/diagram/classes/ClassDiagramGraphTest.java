@@ -32,6 +32,12 @@ public class ClassDiagramGraphTest {
 
 	//--- Bidirectional ---
 	@Test
+	public void testSetBirectionalRelationConstraint() {
+		classDiagram.setBirectionalRelationConstraint(false);
+		Assert.assertFalse(classDiagram.getBirectionalRelationConstraint());
+	}
+	
+	@Test
 	public void testIsBidirectionalRelationAllowedFalse1() {
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
 		classDiagram.connect(edge2, endNode, null, startNode, null, null);
@@ -79,6 +85,12 @@ public class ClassDiagramGraphTest {
 	}
 
 	// ---- Recursive ----
+	@Test
+	public void testSetRecursiveRelationConstraint() {
+		classDiagram.setRecursiveRelationConstraint(false);
+		Assert.assertFalse(classDiagram.getRecursiveRelationConstraint());
+	}
+	
 	@Test
 	public void test_isRecursiveRelationAllowedTrue() {
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
