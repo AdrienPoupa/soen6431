@@ -13,6 +13,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests for the ClassNode class
+ * @author VioletUML authors
+ * @author Adrien Poupa
+ */
 public class ClassNodeTest {
 
     @Test
@@ -100,12 +105,18 @@ public class ClassNodeTest {
         return result;
     }
 
+    /**
+     * Test the ClassNode constructor, make sure the default node is conform to what we expect
+     */
     @Test
     public void testClassNodeConstructor() {
         ClassNode node = new ClassNode();
         assertEquals(LineText.CENTER, node.getCbo().getAlignment());
     }
 
+    /**
+     * Test the ClassNode copy constructor, make sure the new node is conform to what we expect
+     */
     @Test
     public void testClassNodeCopyConstructor() {
         try {
@@ -120,6 +131,9 @@ public class ClassNodeTest {
         }
     }
 
+    /**
+     * Test the createContentStructure function
+     */
     @Test
     public void testCreateContentStructure() {
         ClassNode node = new ClassNode();
@@ -129,6 +143,9 @@ public class ClassNodeTest {
         assertEquals(4, node.getVerticalGroupContent().getContents().size());
     }
 
+    /**
+     * Update CBO, make sure the output is CBO count: 0
+     */
     @Test
     public void testUpdateCbo() {
         ClassNode node = new ClassNode();
@@ -136,6 +153,9 @@ public class ClassNodeTest {
         assertEquals("CBO count: 0", node.getCbo().toString());
     }
 
+    /**
+     * Test the enableCbo function, make sure the VerticalGroupContent array has been updated and contains cboContent
+     */
     @Test
     public void testEnableCbo() {
         ClassNode node = new ClassNode();
@@ -145,6 +165,9 @@ public class ClassNodeTest {
         assertTrue(node.getVerticalGroupContent().getContents().contains(cboContent));
     }
 
+    /**
+     * Test the disableCbo function, make sure the VerticalGroupContent does not contain the cboContent anymore
+     */
     @Test
     public void testDisableCbo() {
         ClassNode node = new ClassNode();
@@ -154,6 +177,9 @@ public class ClassNodeTest {
         assertFalse(node.getVerticalGroupContent().getContents().contains(cboContent));
     }
 
+    /**
+     * Test for getVerticalGroupContent
+     */
     @Test
     public void testGetVerticalGroupContent() {
         ClassNode node = new ClassNode();
@@ -163,6 +189,9 @@ public class ClassNodeTest {
         assertEquals(verticalGroupContent, node.getVerticalGroupContent());
     }
 
+    /**
+     * Test for setVerticalGroupContent
+     */
     @Test
     public void testSetVerticalGroupContent() {
         ClassNode node = new ClassNode();
@@ -171,6 +200,9 @@ public class ClassNodeTest {
         assertEquals(verticalGroupContent, node.getVerticalGroupContent());
     }
 
+    /**
+     * Test for getCboContent
+     */
     @Test
     public void testGetCboContent() {
         ClassNode node = new ClassNode();
@@ -180,6 +212,9 @@ public class ClassNodeTest {
         assertEquals(cboContent, node.getCboContent());
     }
 
+    /**
+     * Test for setCboContent
+     */
     @Test
     public void testSetCboContent() {
         ClassNode node = new ClassNode();
@@ -189,14 +224,20 @@ public class ClassNodeTest {
         assertEquals(cboContent, node.getCboContent());
     }
 
+    /**
+     * Make sure cbo count is equals to 0 at instantiation
+     */
     @Test
-    public void testCboCounIs0AtInstanciation() {
+    public void testCboCounIs0AtInstantiation() {
         ClassNode classNode = new ClassNode();
         Assert.assertEquals(0, classNode.getCboCount());
     }
 
+    /**
+     * Make sure cbo count is equals to 0 at instantiation using copy constructor
+     */
     @Test
-    public void testCboCountIs0AtInstanciationFromNode() {
+    public void testCboCountIs0AtInstantiationFromNode() {
         try {
             ClassNode ClassNode1 = new ClassNode();
             ClassNode ClassNode2 = new ClassNode(ClassNode1);
@@ -206,6 +247,9 @@ public class ClassNodeTest {
         }
     }
 
+    /**
+     * Test for incrementCboCount, make sure cboCount increased to 1
+     */
     @Test
     public void testIncrementCboCount() {
         ClassNode classNode = new ClassNode();
@@ -213,6 +257,9 @@ public class ClassNodeTest {
         Assert.assertEquals(1, classNode.getCboCount());
     }
 
+    /**
+     * Test for decrementCboCount
+     */
     @Test
     public void testDecrementCboCountIfCboCountGreaterThan1() {
         ClassNode classNode = new ClassNode();
@@ -222,6 +269,9 @@ public class ClassNodeTest {
         Assert.assertEquals(1, classNode.getCboCount());
     }
 
+    /**
+     * Test for decrementCboCount when initial value is at 0
+     */
     @Test
     public void testDecrementCboCountIfCboCountLessThan1() {
         ClassNode classNode = new ClassNode();
@@ -229,12 +279,18 @@ public class ClassNodeTest {
         Assert.assertEquals(0, classNode.getCboCount());
     }
 
+    /**
+     * Test for getCboCount
+     */
     @Test
     public void testGetCboCount() {
         ClassNode classNode = new ClassNode();
         Assert.assertEquals(0, classNode.getCboCount());
     }
 
+    /**
+     * Test for setCboCount
+     */
     @Test
     public void testSetCboCount() {
         ClassNode classNode = new ClassNode();
@@ -242,6 +298,9 @@ public class ClassNodeTest {
         Assert.assertEquals(2, classNode.getCboCount());
     }
 
+    /**
+     * Test for getCbo
+     */
     @Test
     public void testGetCbo() {
         ClassNode classNode = new ClassNode();
@@ -250,6 +309,9 @@ public class ClassNodeTest {
         Assert.assertEquals(cbo, classNode.getCbo());
     }
 
+    /**
+     * Test for setCbo
+     */
     @Test
     public void testSetCbo() {
         ClassNode classNode = new ClassNode();

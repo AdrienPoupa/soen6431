@@ -10,6 +10,12 @@ import com.horstmann.violet.product.diagram.classes.edge.AssociationEdge;
 import com.horstmann.violet.product.diagram.classes.edge.CompositionEdge;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 
+/**
+ * Tests for our modified functions
+ * @author Amanpreet Kaur Bhatia
+ * @author Farhan Shaheen
+ * @author Adrien Poupa
+ */
 public class ClassDiagramGraphTest {
 
 	ClassNode startNode, endNode;
@@ -76,21 +82,21 @@ public class ClassDiagramGraphTest {
 	@Test
 	public void test_isRecursiveRelationAllowedTrue() {
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
-		Assert.assertEquals(true, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+		Assert.assertTrue(classDiagram.isRecursiveRelationAllowed(startNode, endNode));
 	}
 	
 	@Test
 	public void testisRecursiveRelationAllowedFalse() {
 		endNode = startNode;
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
-		Assert.assertEquals(false, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+		Assert.assertFalse(classDiagram.isRecursiveRelationAllowed(startNode, endNode));
 	}
 	
 	@Test
 	public void test_isRecursiveRelationAllowedTrue2() {
 		edge1 = new CompositionEdge();
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
-		Assert.assertEquals(true, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+		Assert.assertTrue(classDiagram.isRecursiveRelationAllowed(startNode, endNode));
 	}
 	
 	@Test
@@ -98,10 +104,14 @@ public class ClassDiagramGraphTest {
 		endNode = startNode;
 		edge1 = new CompositionEdge();
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
-		Assert.assertEquals(false, classDiagram.isRecursiveRelationAllowed(startNode, endNode));
+		Assert.assertFalse(classDiagram.isRecursiveRelationAllowed(startNode, endNode));
 	}
 	
 	// ---- CBO ----
+
+	/**
+	 * Make sure that if we try to connect a node to itself, its CBO count remains at 0
+	 */
 	@Test
 	public void testConnectStartEqualsToEnd() {
 		classDiagram.connect(edge2, startNode, null, startNode, null, null);
@@ -109,6 +119,9 @@ public class ClassDiagramGraphTest {
 		Assert.assertEquals(0, endNode.getCboCount());
 	}
 
+	/**
+	 * Make sure that if we try to connect a node to another node, its CBO count is increased to 1
+	 */
 	@Test
 	public void testConnectStartNotEqualsToEnd() {
 		classDiagram.connect(edge2, startNode, null, endNode, null, null);
@@ -116,6 +129,9 @@ public class ClassDiagramGraphTest {
 		Assert.assertEquals(1, endNode.getCboCount());
 	}
 
+	/**
+	 * If we remove an edge after an unsuccessful connection, make sure its CBO count remains to 0 and not -1
+	 */
 	@Test
 	public void testRemoveStartEqualsToEnd() {
 		classDiagram.connect(edge1, startNode, null, startNode, null, null);
@@ -124,6 +140,9 @@ public class ClassDiagramGraphTest {
 		Assert.assertEquals(0, endNode.getCboCount());
 	}
 
+	/**
+	 * If we remove an edge after a successful connection, make sure its CBO count is decreased to 0
+	 */
 	@Test
 	public void testRemoveStartNotEqualsToEnd() {
 		classDiagram.connect(edge1, startNode, null, endNode, null, null);
